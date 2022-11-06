@@ -10,6 +10,7 @@ const ProductController = require('./controllers/ProductController');
 const CommentController = require('./controllers/CommentController');
 const OrderController = require('./controllers/OrderController');
 const OrderDetailController = require('./controllers/OrderDetailController');
+const ProductValueController = require('./controllers/ProductValueController');
 app.use(morgan('combined'));
 //const User = require('./models/User');
 
@@ -25,6 +26,7 @@ app.get('/get-category', CategoryController.index);
 app.get('/get-comment', CommentController.insert);
 app.get('/order', OrderController.index);
 app.get('/order-detail', OrderDetailController.index);
+app.get('/product-type', ProductValueController.insert);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
