@@ -14,8 +14,7 @@ const { Op } = require("sequelize");
 //console.log(PostCategory)
 class PostController {
     async index(req, res){
-    
-       /* const result = await PostCategory.findAll({
+    /* const result = await PostCategory.findAll({
             include: [
               {
                 model: Category,
@@ -77,7 +76,7 @@ class PostController {
 
 
 
-       const rowFirst = await Category.findAll({
+    /*    const rowFirst = await Category.findAll({
             
             include: [
                 {
@@ -217,7 +216,10 @@ class PostController {
             randomSecond,
 
             
-        });
+        }); */
+        const result = await Category.findAll();
+        return res.json(result);
+       
     }
     async category (req, res) {
         const postSuggest = await Post.findAll({
