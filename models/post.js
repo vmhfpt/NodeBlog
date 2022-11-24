@@ -12,33 +12,33 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
      
       // define association here
-      Post.belongsTo(models.User, {
-        foreignKey : 'user_post_id'
-      })
-      Post.hasMany(models.Post_comment, {
-        foreignKey : 'post_id',
-        as : 'Post_comments'
-      });
-      Post.hasOne(models.Post_meta, {
-        foreignKey : 'post_id'
-      });
-      Post.belongsToMany(models.Tag, {
-        through: models.Post_tag,
-        foreignKey : 'post_id'
-      });
-      models.Tag.belongsToMany(Post, {
-        through: models.Post_tag,
-        foreignKey : 'tag_id'
-      });
+       Post.belongsTo(models.User, {
+         foreignKey : 'user_post_id'
+       })
+       Post.hasMany(models.Post_comment, {
+         foreignKey : 'post_id',
+         as : 'Post_comments'
+       });
+       Post.hasOne(models.Post_meta, {
+         foreignKey : 'post_id'
+       });
+       Post.belongsToMany(models.Tag, {
+         through: models.Post_tag,
+         foreignKey : 'post_id'
+       });
+       models.Tag.belongsToMany(Post, {
+         through: models.Post_tag,
+         foreignKey : 'tag_id'
+       });
 
-      Post.belongsToMany(models.Category, {
-        through: models.Post_category,
-        foreignKey : 'post_id'
-      });
-      models.Category.belongsToMany(Post, {
-        through: models.Post_category,
-        foreignKey : 'category_id'
-      });
+       Post.belongsToMany(models.Category, {
+         through: models.Post_category,
+         foreignKey : 'post_id'
+       });
+       models.Category.belongsToMany(Post, {
+         through: models.Post_category,
+         foreignKey : 'category_id'
+       });
     }
   }
   Post.init({
@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Post',
+    tableName: 'posts'
   });
   return Post;
 };

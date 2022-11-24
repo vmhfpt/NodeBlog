@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
   
-      Post_category.belongsTo(models.Category, {
-        foreignKey: 'category_id'
-      });
-      Post_category.belongsTo(models.Post, {
-        foreignKey: 'post_id'
-      });
+       Post_category.belongsTo(models.Category, {
+         foreignKey: 'category_id'
+       });
+       Post_category.belongsTo(models.Post, {
+         foreignKey: 'post_id'
+       });
     }
   }
   Post_category.init({
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     timestamps: false,
-    modelName: 'Post_category',
+    tableName: 'post_categories'
   });
   return Post_category;
 };

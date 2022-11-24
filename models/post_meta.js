@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Post_meta',
+    tableName: 'post_meta'
   });
   return Post_meta;
 };

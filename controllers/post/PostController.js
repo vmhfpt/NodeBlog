@@ -52,7 +52,7 @@ class PostController {
             
         });
          */
-      /**  const topPost = await Post.findAll({
+      /*  const topPost = await Post.findAll({
             limit: 5 ,
             order: [['id', 'DESC']],
             include: [
@@ -76,7 +76,7 @@ class PostController {
 
 
 
-    /*    const rowFirst = await Category.findAll({
+       const rowFirst = await Category.findAll({
             
             include: [
                 {
@@ -216,9 +216,8 @@ class PostController {
             randomSecond,
 
             
-        }); */
-        const result = await Category.findAll();
-        return res.json(result);
+        }); 
+      
        
     }
     async category (req, res) {
