@@ -1,22 +1,22 @@
 {
   "development": {
     "username": "root",
-    "password": "",
-    "database": "wuahsgnt_blog",
+    "password": "12345678",
+    "database": "blog",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "",
-    "database": "wuahsgnt_blog",
+    "password": "12345678",
+    "database": "blog",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "",
-    "database": "wuahsgnt_blog",
+    "password": "12345678",
+    "database": "blog",
     "host": "localhost",
     "dialect": "mysql"
   }

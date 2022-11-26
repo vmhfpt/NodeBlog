@@ -3,7 +3,7 @@ const app = express();
 var morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const port = 3100;
+const port = 8080;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
