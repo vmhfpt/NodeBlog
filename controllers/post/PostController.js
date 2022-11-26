@@ -443,5 +443,65 @@ class PostController {
             postSuggest 
         });
     }
+    async getSearchAutoComplete(req, res){
+       // return res.json(req.body.key);
+        const result = await Post.findAll({
+            where : {
+                title : {[Op.substring]: req.body.key} 
+            },
+            offset : 0,
+            limit: 5 ,
+            order: [['id', 'DESC']],
+            attributes : ['title', 'slug']
+        })
+        return res.json(result);
+    }
+    async getSearch(req, res){
+        var page = Number(req.body.page) <= 0 || !req.body.page ? 1 : Number(req.body.page) ;
+      
+        var limit_item = 6;
+      
+       const result = await Post.findAll({
+        where : {
+            title : {[Op.substring]: req.body.key}
+            
+         },
+         
+        attributes : ['title','description', 'createdAt', 'slug', 'thumb'],
+        include : {
+            model : User,
+            attributes: ['name']
+        
+        },
+        offset : 0,
+        limit: page *  limit_item ,
+        order: [['id', 'DESC']],
+       });
+    
+       const total = await Post.findAndCountAll({
+         where : {
+            title : {[Op.substring]: req.body.key}
+         },
+        
+       });
+       
+       
+  
+        return res.json({
+           
+           
+            result ,
+            paginate : {
+               total_item : total.count,
+               current_page : page,
+               next_page : page < Math.ceil(total.count / limit_item) ? page + 1 : false,
+               prev_page : page - 1 <= 0 ? false : page - 1,
+               total_page : total.count / limit_item > 0 ?  Math.ceil(total.count / limit_item)  : 0 ,
+               limit_item : limit_item,
+               more_item : total.count -  result.length > 0 ? total.count -  result.length : false,
+
+            }
+        });
+    }
 }
 module.exports = new PostController();

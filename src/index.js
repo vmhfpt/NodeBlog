@@ -6,6 +6,8 @@ const cors = require('cors');
 const port = 3100;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+const FooterController = require('../controllers/footer/FooterController');
 const UserController = require('../controllers/UserController');
 const PostController = require('../controllers/post/PostController');
 const CategoryController = require('../controllers/post/CategoryController');
@@ -21,8 +23,11 @@ app.get('/home', PostController.index);
 app.get('/home-category', PostController.category);
 app.get('/category', CategoryController.index);
 app.post('/post-by-category', PostController.getByCategory);
+app.post('/post-by-search-auto-complete', PostController.getSearchAutoComplete);
+app.post('/post-by-search', PostController.getSearch);
 app.post('/post-by-tag', PostController.getByTag);
 app.post('/post', PostController.getDetail);
+app.post('/footer', FooterController.index);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
