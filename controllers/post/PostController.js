@@ -221,12 +221,15 @@ class PostController {
        
     }
     async category (req, res) {
+        
         const postSuggest = await Post.findAll({
             offset : 0,
             limit: 3 ,
             order: [['id', 'DESC']],
             attributes: ['createdAt','title', 'thumb', 'slug']
         }); 
+
+
         const commentSuggest = await PostComment.findAll({
             offset : 0,
             limit: 3 ,
@@ -502,6 +505,29 @@ class PostController {
 
             }
         });
+    }
+    async postComment(req, res){
+        const row = await PostComment.create({ 
+            post_id : req.body.id,
+            parent_id : req.body.parent_id,
+            name : req.body.name,
+            phone_number : req.body.number,
+            email : req.body.email,
+            content : req.body.content,
+            active : 1
+         });
+        const result = await PostComment.findAll({
+            where : {
+                [Op.and]: [{   post_id : req.body.id }, { parent_id: 0 }], 
+            },
+            include : {
+                model : PostComment,
+                order: [['id', 'DESC']],
+            },
+            order: [['id', 'DESC']],
+            required:false,
+        });
+        return res.json(result);
     }
 }
 module.exports = new PostController();

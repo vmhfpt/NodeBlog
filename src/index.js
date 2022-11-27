@@ -20,6 +20,9 @@ app.get('/', (req, res) => {
 app.get('/demo', UserController.index);
 app.get('/home', PostController.index);
 
+
+//
+app.post('/post-comment', PostController.postComment);
 app.get('/home-category', PostController.category);
 app.get('/category', CategoryController.index);
 app.post('/post-by-category', PostController.getByCategory);
