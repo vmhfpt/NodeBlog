@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 var morgan = require('morgan');
+const cloudinary = require('cloudinary').v2;
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = 8080;
@@ -11,7 +12,20 @@ const FooterController = require('../controllers/footer/FooterController');
 const UserController = require('../controllers/UserController');
 const PostController = require('../controllers/post/PostController');
 const CategoryController = require('../controllers/post/CategoryController');
+const PostAdminController = require('../controllers/admin/post/PostController');
+const CategoryAdminController = require('../controllers/admin/category/CategoryController');
+const authLogin = require('../middleware/authentication');
 app.use(morgan('combined'));
+
+
+
+cloudinary.config({
+  cloud_name: 'dqouzpjiz', 
+  api_key: '621535751894482', 
+  api_secret: 'yr8KAay4lBEf9TfS9RVSdRQ0fk0',
+  secure: true
+});
+
 
 app.use(cors());
 app.get('/', (req, res) => {
@@ -21,7 +35,26 @@ app.get('/demo', UserController.index);
 app.get('/home', PostController.index);
 
 
-//
+
+//////////////////////////////////
+app.post('/user/login', UserController.login);
+app.post('/user/logout', UserController.logout);
+app.post('/user/register', UserController.create);
+////////////////////////////////
+
+
+//////////////////////////////
+app.get('/admin/post',authLogin , PostAdminController.index);
+app.get('/admin/category', authLogin, CategoryAdminController.index);
+app.post('/admin/category/add', authLogin, CategoryAdminController.create);
+app.get('/admin/category/show/:slug', authLogin, CategoryAdminController.show);
+app.put('/admin/category/update/:slug', authLogin, CategoryAdminController.update);
+app.delete('/admin/category/delete', authLogin, CategoryAdminController.destroy);
+//////////////////////////////////admin/category/delete/
+
+
+
+
 app.post('/post-comment', PostController.postComment);
 app.get('/home-category', PostController.category);
 app.get('/category', CategoryController.index);
@@ -77,3 +110,32 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 }) */
 
+function print (path, layer) {
+  if (layer.route) {
+    layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))))
+  } else if (layer.name === 'router' && layer.handle.stack) {
+    layer.handle.stack.forEach(print.bind(null, path.concat(split(layer.regexp))))
+  } else if (layer.method) {
+    console.log('%s /%s',
+      layer.method.toUpperCase(),
+      path.concat(split(layer.regexp)).filter(Boolean).join('/'))
+  }
+}
+
+function split (thing) {
+  if (typeof thing === 'string') {
+    return thing.split('/')
+  } else if (thing.fast_slash) {
+    return ''
+  } else {
+    var match = thing.toString()
+      .replace('\\/?', '')
+      .replace('(?=\\/|$)', '$')
+      .match(/^\/\^((?:\\[.*+?^${}()|[\]\\\/]|[^.*+?^${}()|[\]\\\/])*)\$\//)
+    return match
+      ? match[1].replace(/\\(.)/g, '$1').split('/')
+      : '<complex:' + thing.toString() + '>'
+  }
+}
+
+app._router.stack.forEach(print.bind(null, []));
