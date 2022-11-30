@@ -110,7 +110,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 }) */
 
-function print (path, layer) {
+/**function print (path, layer) {
   if (layer.route) {
     layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))))
   } else if (layer.name === 'router' && layer.handle.stack) {
@@ -138,4 +138,4 @@ function split (thing) {
   }
 }
 
-app._router.stack.forEach(print.bind(null, []));
+app._router.stack.forEach(print.bind(null, [])); */
