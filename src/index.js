@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 var morgan = require('morgan');
 const cloudinary = require('cloudinary').v2;
+const handleUploadFile = require('../config/upload/multerConfig');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = 8080;
@@ -33,7 +34,7 @@ app.get('/', (req, res) => {
 });
 app.get('/demo', UserController.index);
 app.get('/home', PostController.index);
-
+app.get('/convert-url-image',  PostController.change);
 
 
 //////////////////////////////////
@@ -50,7 +51,14 @@ app.post('/admin/category/add', authLogin, CategoryAdminController.create);
 app.get('/admin/category/show/:slug', authLogin, CategoryAdminController.show);
 app.put('/admin/category/update/:slug', authLogin, CategoryAdminController.update);
 app.delete('/admin/category/delete', authLogin, CategoryAdminController.destroy);
-//////////////////////////////////admin/category/delete/
+//////////////////////////////////'/admin/post/add'
+
+/////////////////////////////////////
+app.post('/admin/post/add',[authLogin,handleUploadFile] , PostAdminController.create);
+
+////////////////////////////////////
+
+
 
 
 

@@ -529,5 +529,24 @@ class PostController {
         });
         return res.json(result);
     }
+    async change(req, res){
+        const result = await Post.findAll({
+            attributes : ['id', 'thumb'],
+        });
+        result.map(async (item, key) => {
+          
+            var text = item.thumb;
+           
+           var add = "https://res.cloudinary.com/dqouzpjiz/image/upload/v1669888719/avatars/";
+            const next = add + text.slice(17, text.length);
+           
+            await Post.update({ thumb: next }, {
+                where: {
+                  id : item.id
+                }
+              });
+        }) 
+        return res.json(result);
+    }
 }
 module.exports = new PostController();
