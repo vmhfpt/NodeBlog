@@ -33,9 +33,12 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-app.get('/demo', UserController.index);
+
+
+
+
 app.get('/home', PostController.index);
-app.get('/convert-url-image',  PostController.change);
+
 
 
 //////////////////////////////////

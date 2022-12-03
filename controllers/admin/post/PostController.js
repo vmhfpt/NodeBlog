@@ -10,6 +10,10 @@ const Tag = require("../../../models").Tag;
 const fs = require("fs");
 const path = require("path");
 class PostController {
+ 
+
+
+  
   async index(req, res) {
     const row = await Post.findAll({
       include: [
@@ -202,7 +206,7 @@ class PostController {
   }
   async destroy(req, res) {
 
-    const directory = "src/public/img/images";
+    const directory = path.join(__dirname + '../../../../src/public/img/images/');
 
     fs.readdir(directory, (err, files) => {
       if (err) throw err;
