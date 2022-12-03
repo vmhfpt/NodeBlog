@@ -7,6 +7,7 @@ const PostCategory = require('../../models').Post_category;
 const PostComment = require('../../models').Post_comment;
 const PostMeta = require('../../models').Post_meta;
 const PostTag = require('../../models').Post_tag;
+const { response } = require('express');
 const Sequelize = require('sequelize');
 const { Op } = require("sequelize");
 //const Post = require('../models').Post;
@@ -271,56 +272,60 @@ class PostController {
             },
             attributes : ['id', 'title', 'slug'],
         });
-       const result = await PostCategory.findAll({
-        include : [
-            {
-                model : Category,
-                where : {
-                    slug : slug
+       if(category){
+        const result = await PostCategory.findAll({
+            include : [
+                {
+                    model : Category,
+                    where : {
+                        slug : slug
+                    },
+                    attributes : ['id']
                 },
-                attributes : ['id']
-            },
-            {
-                model : Post,
-                attributes : ['title','description', 'createdAt', 'slug', 'thumb'],
-                include : {
-                        model : User,
-                        attributes: ['name']
-                    
-                }
-            },
-            
-        ],
-        offset : 0,
-        limit: page *  limit_item ,
-        order: [['id', 'DESC']],
-       });
-    
-       const total = await PostCategory.findAndCountAll({
-         where : {
-            category_id : category.id,
-            
-         },
+                {
+                    model : Post,
+                    attributes : ['title','description', 'createdAt', 'slug', 'thumb'],
+                    include : {
+                            model : User,
+                            attributes: ['name']
+                        
+                    }
+                },
+                
+            ],
+            offset : 0,
+            limit: page *  limit_item ,
+            order: [['id', 'DESC']],
+           });
         
-       });
-       
-       
-  
-        return res.json({
+           const total = await PostCategory.findAndCountAll({
+             where : {
+                category_id : category.id,
+                
+             },
+            
+           });
            
-           category,
-            result ,
-            paginate : {
-               total_item : total.count,
-               current_page : page,
-               next_page : page < Math.ceil(total.count / limit_item) ? page + 1 : false,
-               prev_page : page - 1 <= 0 ? false : page - 1,
-               total_page : total.count / limit_item > 0 ?  Math.ceil(total.count / limit_item)  : 0 ,
-               limit_item : limit_item,
-               more_item : total.count -  result.length > 0 ? total.count -  result.length : false,
-
-            }
-        });
+           
+      
+            return res.json({
+               
+               category,
+                result ,
+                paginate : {
+                   total_item : total.count,
+                   current_page : page,
+                   next_page : page < Math.ceil(total.count / limit_item) ? page + 1 : false,
+                   prev_page : page - 1 <= 0 ? false : page - 1,
+                   total_page : total.count / limit_item > 0 ?  Math.ceil(total.count / limit_item)  : 0 ,
+                   limit_item : limit_item,
+                   more_item : total.count -  result.length > 0 ? total.count -  result.length : false,
+    
+                }
+            });
+       }else {
+           return res.json({error : "not-found"});
+       }
     }
     async getByTag(req, res){
         var page = Number(req.body.page) <= 0 || !req.body.page ? 1 : Number(req.body.page) ;
@@ -332,57 +337,62 @@ class PostController {
             },
             attributes : ['id', 'title', 'slug'],
         });
-       const result = await PostTag.findAll({
-        include : [
-            {
-                model : Tag,
-                where : {
-                    slug : slug
-                },
-                attributes : ['id']
-            },
-            {
-                model : Post,
-                attributes : ['title','description', 'createdAt', 'slug', 'thumb'],
-                include : {
-                        model : User,
-                        attributes: ['name']
+        if(tag){
+            const result = await PostTag.findAll({
+                include : [
+                    {
+                        model : Tag,
+                        where : {
+                            slug : slug
+                        },
+                        attributes : ['id']
+                    },
+                    {
+                        model : Post,
+                        attributes : ['title','description', 'createdAt', 'slug', 'thumb'],
+                        include : {
+                                model : User,
+                                attributes: ['name']
+                            
+                        }
+                    },
                     
-                }
-            },
+                    
+                ],
+                offset : 0,
+                limit: page *  limit_item ,
+                order: [['id', 'DESC']],
+               });
             
-            
-        ],
-        offset : 0,
-        limit: page *  limit_item ,
-        order: [['id', 'DESC']],
-       });
-    
-       const total = await PostTag.findAndCountAll({
-         where : {
-            tag_id : tag.id,
-            
-         },
+               const total = await PostTag.findAndCountAll({
+                 where : {
+                    tag_id : tag.id,
+                    
+                 },
+                
+               });
+               
+               
+          
+                return res.json({
+                   
+                    tag,
+                    result ,
+                    paginate : {
+                       total_item : total.count,
+                       current_page : page,
+                       next_page : page < Math.ceil(total.count / limit_item) ? page + 1 : false,
+                       prev_page : page - 1 <= 0 ? false : page - 1,
+                       total_page : total.count / limit_item > 0 ?  Math.ceil(total.count / limit_item)  : 0 ,
+                       limit_item : limit_item,
+                       more_item : total.count -  result.length > 0 ? total.count -  result.length : false,
         
-       });
-       
-       
-  
-        return res.json({
-           
-            tag,
-            result ,
-            paginate : {
-               total_item : total.count,
-               current_page : page,
-               next_page : page < Math.ceil(total.count / limit_item) ? page + 1 : false,
-               prev_page : page - 1 <= 0 ? false : page - 1,
-               total_page : total.count / limit_item > 0 ?  Math.ceil(total.count / limit_item)  : 0 ,
-               limit_item : limit_item,
-               more_item : total.count -  result.length > 0 ? total.count -  result.length : false,
-
-            }
-        });
+                    }
+                });
+        }else {
+            return res.json({error : 'not-found'});
+        }
+      
     }
     async getDetail(req, res){
         var slug = req.body.slug;
@@ -425,6 +435,7 @@ class PostController {
             order: [['Post_comments','id', 'DESC']]
             
         });
+       if(result) {
         const category_id = (result.Categories[0].id);
         const post_id = result.id;
         
@@ -445,6 +456,10 @@ class PostController {
             tag,
             postSuggest 
         });
+       }else {
+          return res.json({error : "not found"});
+       }
+       
     }
     async getSearchAutoComplete(req, res){
        // return res.json(req.body.key);

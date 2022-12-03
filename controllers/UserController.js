@@ -76,7 +76,7 @@ class UserController {
         const {id , name, email} = data;
         var token = jwt.sign(
           {
-             data : {name, email}
+             data : {id, name, email}
           },
           "authentication_token",
           { expiresIn: "1h" }

@@ -10,9 +10,11 @@ function authLogin(req, res, next){
       try {
         
          const decoded = jwt.verify(token, 'authentication_token');
+         
          req.userId = decoded.data.id;
          req.name = decoded.data.name;
          req.email = decoded.data.email;
+         
          next();
       }catch {
        

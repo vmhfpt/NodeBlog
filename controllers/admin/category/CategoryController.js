@@ -9,7 +9,7 @@ const PostMeta = require("../models").Post_meta;
 const PostTag = require("../models").Post_tag; */
 const Category = require("../../../models").Category;
 const { response } = require("express");
-var slug = require('slug')
+var slug = require('slug');
 class CategoryController {
     async index(req, res){
        await Category.findAll({})

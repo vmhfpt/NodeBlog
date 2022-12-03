@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 const FooterController = require('../controllers/footer/FooterController');
 const UserController = require('../controllers/UserController');
 const PostController = require('../controllers/post/PostController');
+const TagAdminController = require('../controllers/admin/tag/TagController');
 const CategoryController = require('../controllers/post/CategoryController');
 const PostAdminController = require('../controllers/admin/post/PostController');
 const CategoryAdminController = require('../controllers/admin/category/CategoryController');
@@ -53,12 +54,20 @@ app.put('/admin/category/update/:slug', authLogin, CategoryAdminController.updat
 app.delete('/admin/category/delete', authLogin, CategoryAdminController.destroy);
 //////////////////////////////////'/admin/post/add'
 
-/////////////////////////////////////
-app.post('/admin/post/add',[authLogin,handleUploadFile] , PostAdminController.create);
+/////////////////////////////////////handleUploadFile
+app.post('/admin/post/add',[authLogin, handleUploadFile] , PostAdminController.create);
+app.put('/admin/post/update/:slug',[authLogin, handleUploadFile] , PostAdminController.update);
+app.get('/admin/post/list',[authLogin] , PostAdminController.index);
+app.delete('/admin/post/delete',authLogin , PostAdminController.destroy);
+/////////////////////////////////////admin/post/delete/
 
-////////////////////////////////////
 
-
+//////////////////////////////////
+app.get('/admin/tag',authLogin , TagAdminController.index);
+app.post('/admin/tag/add',authLogin , TagAdminController.create);
+app.put('/admin/tag/update/:id',authLogin , TagAdminController.update);
+app.delete('/admin/tag/delete',authLogin , TagAdminController.destroy);
+////////////////////////////////////admin/tag/update/
 
 
 
