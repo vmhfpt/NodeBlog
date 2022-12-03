@@ -202,7 +202,7 @@ class PostController {
   }
   async destroy(req, res) {
 
-    const directory = "src\\public\\img\\images";
+    const directory = "src/public/img/images";
 
     fs.readdir(directory, (err, files) => {
       if (err) throw err;
