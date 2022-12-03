@@ -6,6 +6,7 @@ const PostCategory = require("../models").Post_category;
 const PostComment = require("../models").Post_comment;
 const PostMeta = require("../models").Post_meta;
 const PostTag = require("../models").Post_tag;
+const { response } = require("express");
 var jwt = require("jsonwebtoken");
 
 //const Post = require('../models').Post;
@@ -50,14 +51,16 @@ class UserController {
     return res.json(result);
   }
   async create(req, res) {
-    await User.findOne({ where: { email: "vuminhhungltt9042@gmail.com" } })
+    const row = await User.create({name : 'Vu Minh Hùng', email: 'vuminhhungltt9042@gmail.com', password: '123456789' });
+    return res.json({status : 'success'});
+   /* await User.findOne({ where: { email: "vuminhhungltt9042@gmail.com" } })
       .then((data) => {
         const test = data.authenticate("***********");
         return res.json(test);
       })
       .catch((error) => {
         return res.json({ error: error });
-      });
+      });*/
     //   const testFirst = user.authenticate('**********');
     //   const testSecond = user.authenticate('SuperSecret');
     // const row = await User.create({name : 'Vũ Minh Hùng', email: 'vuminhhungltt9042@gmail.com', password: '123456789' });
