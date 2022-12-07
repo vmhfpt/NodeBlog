@@ -66,7 +66,7 @@ class UserController {
     // const row = await User.create({name : 'Vũ Minh Hùng', email: 'vuminhhungltt9042@gmail.com', password: '123456789' });
     //     return res.json({
     //    first : testFirst,
-    //    second : testSecond
+    //    second : testSecond  1670090113902uqjce
     //   });
   }
   async login(req, res) {

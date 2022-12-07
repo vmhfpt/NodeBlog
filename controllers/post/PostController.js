@@ -399,7 +399,7 @@ class PostController {
         const tag = await Tag.findAll({
             attributes : ['id', 'title', 'slug'],
         });
-        const result = await Post.findOne({
+        await Post.findOne({
             where: {
                slug : slug
             },
@@ -434,31 +434,37 @@ class PostController {
             ],
             order: [['Post_comments','id', 'DESC']]
             
-        });
-       if(result) {
-        const category_id = (result.Categories[0].id);
-        const post_id = result.id;
-        
-        const postSuggest = await PostCategory.findAll({
-            where: {
-                [Op.and]: [{ category_id : category_id  }, { post_id: { [Op.ne]: post_id} }],  
-            },
-            include : {
-                model : Post,
-                attributes : ['title','description', 'createdAt', 'slug', 'thumb']
-            },
-            offset : 0,
-            limit: 3 ,
-            order: [['id', 'DESC']],
         })
-        return res.json({
-            result,
-            tag,
-            postSuggest 
-        });
-       }else {
-          return res.json({error : "not found"});
-       }
+        .then(async (result) => {
+            if(result && result.Categories) {
+                const category_id = (result.Categories[0].id);
+                const post_id = result.id;
+                
+                const postSuggest = await PostCategory.findAll({
+                    where: {
+                        [Op.and]: [{ category_id : category_id  }, { post_id: { [Op.ne]: post_id} }],  
+                    },
+                    include : {
+                        model : Post,
+                        attributes : ['title','description', 'createdAt', 'slug', 'thumb']
+                    },
+                    offset : 0,
+                    limit: 3 ,
+                    order: [['id', 'DESC']],
+                })
+                return res.json({
+                    result,
+                    tag,
+                    postSuggest 
+                });
+               }else {
+                  return res.json({error : "not found"});
+               }
+        })
+        .catch((error) => {
+            return res.json(error);
+        })
+       
        
     }
     async getSearchAutoComplete(req, res){
