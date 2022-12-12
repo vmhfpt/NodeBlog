@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const MessengerController = require("../controllers/post/MessengerController");
 const Messenger = require('../models').Messenger;
 var bodyParser = require("body-parser");
-const port = 8081;
+
 const cors = require("cors");
 const res = require("express/lib/response");
 var app = express();
@@ -83,7 +83,7 @@ socketIo.on("connection", (socket) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`server run  running at http://localhost:8081`);
-})
 
+server.listen(process.env.PORT || 8081, () => {
+  console.log(`server run  running at http://localhost:8081`);
+});
