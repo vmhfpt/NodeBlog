@@ -30,6 +30,8 @@ const socketIo = require("socket.io")(server, {
   cors: {
     origin: "*",
   },
+  path: "/chat/"
+ 
 });
 
 const users = {};
