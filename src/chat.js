@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 
 const server = http.createServer(app);
-app.get('/', (req, res) => {
+app.get('/chat', (req, res) => {
   res.send('Hello chat app');
 });
 //////////////////////////////////////////////////////////////////////////
