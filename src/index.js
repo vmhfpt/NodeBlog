@@ -16,6 +16,7 @@ const TagAdminController = require('../controllers/admin/tag/TagController');
 const CategoryController = require('../controllers/post/CategoryController');
 const PostAdminController = require('../controllers/admin/post/PostController');
 const CategoryAdminController = require('../controllers/admin/category/CategoryController');
+const MessengerController = require("../controllers/post/MessengerController");
 const authLogin = require('../middleware/authentication');
 app.use(morgan('combined'));
 
@@ -38,7 +39,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/home', PostController.index);
-
+app.get('/get-chat',MessengerController.index);
 
 
 //////////////////////////////////

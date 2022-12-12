@@ -4,8 +4,7 @@
     "password": "12345678",
     "database": "blog",
     "host": "localhost",
-    "dialect": "mysql",
-    "logging": false
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
