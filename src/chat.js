@@ -19,7 +19,9 @@ app.use(bodyParser.json());
 
 
 const server = http.createServer(app);
-app.get('/get-chat',MessengerController.index);
+app.get('/', (req, res) => {
+  res.send('Hello chat app');
+});
 //////////////////////////////////////////////////////////////////////////
 
 
