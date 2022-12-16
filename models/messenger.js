@@ -23,8 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     name : {
       type: DataTypes.STRING(255)
     },
-    
+    createdAt : {
+      type: DataTypes.STRING(100)
+    },
   }, {
+    timestamps: false,
     sequelize,
     tableName: 'messengers'
   });

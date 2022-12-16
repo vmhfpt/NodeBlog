@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
   }, {
+    
     sequelize,
     tableName: 'post_comments'
   });

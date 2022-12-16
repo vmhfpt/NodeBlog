@@ -52,14 +52,16 @@ socketIo.on("connection", (socket) => {
   });
 
   socket.on("sendDataClient", async function (data) {
+    const timestamp = new Date(new Date().toString().split('GMT')[0]+' UTC').toISOString();
     data = {...data,
-    createdAt : new Date(new Date().toString().split('GMT')[0]+' UTC').toISOString()
+        createdAt : timestamp
     };
     socketIo.emit("sendDataServer",  data );
    const result = await Messenger.create({ 
         name : data.name,
         content : data.content,
-        user_id : data.id
+        user_id : data.id,
+        createdAt : timestamp
      });
    
   });
