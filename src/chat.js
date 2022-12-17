@@ -61,7 +61,8 @@ socketIo.on("connection", (socket) => {
         name : data.name,
         content : data.content,
         user_id : data.id,
-        createdAt : timestamp
+        createdAt : timestamp,
+        thumb : data.thumb ? data.thumb : null
      });
    
   });
